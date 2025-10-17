@@ -4,20 +4,16 @@ import (
     "net/http"
     "log"
     //"fmt"
-	"text/template"
 
     //"CRUD_GO/config"
-    //"CRUD_GO/routes"
+    "CRUD_GO/routes"
 )
 
-var tmpl = template.Must(template.ParseGlob("templates/*.html"))
-
 func main() {
-	http.HandleFunc("/", index)
-	log.Println("Servidor corriendo...")
+	// Acá se cargan todas las rutas definidas en routes/routes.go
+	routes.LoadRoutes()
+
+	// Iniciar el servidor, vamos a utilizar el puerto 8080 para que lo tengan en cuenta muchachos
+	log.Println("Servidor corriendo en http://localhost:8080")
 	http.ListenAndServe(":8080", nil)
-}
-func index(w http.ResponseWriter, r *http.Request) {
-	//fmt.Println("Página Inicio")
-	tmpl.ExecuteTemplate(w, "index.html", nil)
 }
