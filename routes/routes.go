@@ -1,14 +1,14 @@
 package routes
 
 import (
-    "fmt"
-    "net/http"
+	"net/http"
+	"CRUD_GO/controllers"
 )
 
-func SetupRoutes() *http.ServeMux {
-    r := http.NewServeMux()
-    r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-        fmt.Fprintln(w, "Hola desde Go")
-    })
-    return r
+func LoadRoutes() {
+	http.HandleFunc("/personas", controllers.VerPersonas)
+	http.HandleFunc("/personas/crear", controllers.CrearPersona)
+	http.HandleFunc("/personas/guardar", controllers.GuardarPersona)
+	http.HandleFunc("/personas/editar", controllers.EditarPersona)
+	http.HandleFunc("/personas/eliminar", controllers.EliminarPersona)
 }
