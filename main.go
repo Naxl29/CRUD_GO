@@ -10,7 +10,7 @@ import (
     "CRUD_GO/routes"
 )
 
-var tmpl = template.Must(template.ParseGlob("templates/*")
+var tmpl = template.Must(template.ParseGlob("templates/*"))
 
 func main() {
 	http.HandleFunc("/", Inicio)

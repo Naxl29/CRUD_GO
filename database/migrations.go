@@ -3,7 +3,7 @@ package database
 import (
 	"log"
 
-	"github.com/Naxl29/CRUD_GO/models"
+	"CRUD_GO/models"
 )
 
 // Migrate ejecuta las migraciones de la base de datos

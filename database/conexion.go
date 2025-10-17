@@ -3,7 +3,7 @@ package database
 import (
 	"log"
 
-	"github.com/Naxl29/CRUD_GO/config"
+	"CRUD_GO/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
