@@ -10,4 +10,5 @@ require (
 	golang.org/x/text v0.20.0 // indirect
 	gorm.io/driver/mysql v1.6.0 // indirect
 	gorm.io/gorm v1.31.0 // indirect
+	github.com/joho/godotenv v1.5.1 // indirect
 )
