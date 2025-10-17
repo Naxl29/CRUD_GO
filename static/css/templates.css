@@ -49,6 +49,17 @@ body .table th, body .table td {
     background-color: #cc0000 !important;
 }
 
+/* Estilos específicos para la tabla de transacciones */
+.table-responsive {
+    margin-top: 20px;
+}
+
+.container {
+    max-width: 1900px;
+}
+
+
+
 .btn-secondary {
     background-color: #555555 !important;
     color: #fff !important;

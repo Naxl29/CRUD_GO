@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Historial de Transacciones</title>
+
+    <!-- Bootstrap CSS desde CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- CSS personalizado -->
+    <link rel="stylesheet" href="/static/css/templates.css">
+    </style>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h2 class="mb-4">Historial de Transacciones</h2>
+
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Remitente</th>
+                  <th>Tipo Cuenta Origen</th>
+                  <th>Destinatario</th>
+                  <th>Tipo Cuenta Destino</th>
+                  <th>Monto</th>
+                  <th>Saldo Actual</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{range .Transacciones}}
+                <tr>
+                  <td>{{.Fecha}}</td>
+                  <td>{{.CuentaOrigen.Cliente.Nombre}}</td>
+                  <td>{{.CuentaOrigen.TipoCuenta}}</td>
+                  <td>{{.CuentaDestino.Cliente.Nombre}}</td>
+                  <td>{{.CuentaDestino.TipoCuenta}}</td>
+                  <td>{{printf "%.2f" .Monto}}</td>
+                  <td>{{printf "%.2f" .CuentaOrigen.Cliente.Saldo}}</td>
+                </tr>
+                {{end}}
+              </tbody> 
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts de Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  </body>
+</html>
