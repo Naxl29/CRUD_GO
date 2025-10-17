@@ -1,16 +1,15 @@
 package main
 
 import (
-	"log"
-	"net/http"
-
-	//"fmt"
+    "net/http"
+    "log"
+    //"fmt"
 	"text/template"
-	//"CRUD_GO/config"
-	//"CRUD_GO/routes"
+
+    //"CRUD_GO/config"
+    //"CRUD_GO/routes"
 )
 
-var tmpl = template.Must(template.ParseGlob("templates/*"))
 var tmpl = template.Must(template.ParseGlob("templates/*.html"))
 
 func main() {
