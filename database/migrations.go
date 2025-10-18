@@ -8,7 +8,7 @@ import (
 
 // Migrate ejecuta las migraciones de la base de datos
 func Migrate() {
-	log.Println("🔄 Ejecutando migraciones...")
+	log.Println(" Ejecutando migraciones...")
 
 	err := DB.AutoMigrate(
 		&models.Persona{},

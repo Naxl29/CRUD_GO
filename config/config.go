@@ -27,7 +27,7 @@ func Variables_entorno() {
 	// Cargar archivo .env
 	err := godotenv.Load()
 	if err != nil {
-		log.Println("⚠️  Advertencia: No se pudo cargar el archivo .env, usando variables del sistema")
+		log.Println("Advertencia: No se pudo cargar el archivo .env, usando variables del sistema")
 	}
 
 	// Crear instancia de configuración
