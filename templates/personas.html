@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Listado de Personas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/templates.css">
+  </head>
+  <body>
+    <div class="container mt-5">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Listado de Personas</h2>
+        <button class="btn btn-success" data-toggle="modal" data-target="#crearPersonaModal">
+          <i class="fas fa-plus"></i> Nueva Persona
+        </button>
+      </div>
+
+      <table class="table table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>ID</th>
+            <th>Nombre Completo</th>
+            <th>Documento</th>
+            <th>Correo</th>
+            <th>Teléfono</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{range .}}
+          <tr>
+            <td>{{.ID}}</td>
+            <td>{{.PrimerNombre}} {{.SegundoNombre}} {{.PrimerApellido}} {{.SegundoApellido}}</td>
+            <td>{{.Documento}}</td>
+            <td>{{.Correo}}</td>
+            <td>{{.Telefono}}</td>
+            <td>
+              <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editarPersonaModal" 
+                      data-id="{{.ID}}" data-nombre1="{{.PrimerNombre}}" data-nombre2="{{.SegundoNombre}}"
+                      data-apellido1="{{.PrimerApellido}}" data-apellido2="{{.SegundoApellido}}"
+                      data-documento="{{.Documento}}" data-correo="{{.Correo}}"
+                      data-telefono="{{.Telefono}}">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-danger btn-sm" onclick="eliminarPersona({{.ID}})">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+          {{else}}
+          <tr>
+            <td colspan="6" class="text-center">No hay personas registradas</td>
+          </tr>
+          {{end}}
+        </tbody>
+      </table>
+
+      <!-- Modal Crear Persona -->
+      <div class="modal fade" id="crearPersonaModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Nueva Persona</h5>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form action="/personas/guardar" method="POST">
+              <div class="modal-body">
+                <!-- Campos del formulario -->
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label>Primer Nombre</label>
+                    <input type="text" name="primerNombre" class="form-control" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label>Segundo Nombre</label>
+                    <input type="text" name="segundoNombre" class="form-control">
+                  </div>
+                </div>
+                <!-- ...más campos... -->
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-success">Guardar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  </body>
+</html>
