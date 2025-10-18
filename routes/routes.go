@@ -34,4 +34,9 @@ func LoadRoutes() {
 	http.HandleFunc("/transacciones/guardar", controllers.GuardarTransaccion)
 	http.HandleFunc("/transacciones/editar", controllers.EditarTransaccion)
 	http.HandleFunc("/transacciones/eliminar", controllers.EliminarTransaccion)
+	// Transferencia entre clientes
+	http.HandleFunc("/transacciones/transferir", controllers.TransferirSaldo)
+	http.HandleFunc("/transacciones/guardarTransferencia", controllers.GuardarTransferencia)
+
+
 }
