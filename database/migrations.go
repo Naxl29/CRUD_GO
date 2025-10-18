@@ -12,6 +12,8 @@ func Migrate() {
 
 	err := DB.AutoMigrate(
 		&models.Persona{},
+		&models.Cliente{},
+		&models.Transaccion{},
 	)
 
 	if err != nil {

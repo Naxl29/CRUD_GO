@@ -4,10 +4,7 @@ import (
 	"CRUD_GO/models"
 	"log"
 	"net/http"
-	"text/template"
 )
-
-var tmpl = template.Must(template.ParseGlob("templates/*.html"))
 
 // Ver listado de personas
 func VerPersonas(w http.ResponseWriter, r *http.Request) {

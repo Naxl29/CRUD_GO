@@ -9,9 +9,17 @@ import (
 
 // Mostrar lista de clientes
 func VerClientes(w http.ResponseWriter, r *http.Request) {
-	clientes := []models.Cliente{
-		{ID: 1, IDPersona: 1, TipoCuenta: "Ahorros", Saldo: 1000000.00, FechaRegistro: time.Now()},
+	// Crear cliente de ejemplo sin ID (GORM lo asigna automáticamente)
+	cliente := models.Cliente{
+		IDPersona:     1,
+		TipoCuenta:    "Ahorros",
+		Saldo:         1000000.00,
+		FechaRegistro: time.Now().Format("2006-01-02 15:04:05"),
 	}
+	cliente.ID = 1 // Asignar ID después de crear la estructura
+
+	clientes := []models.Cliente{cliente}
+
 	err := tmpl.ExecuteTemplate(w, "Clientes.html", clientes)
 	if err != nil {
 		log.Println("Error al cargar clientes:", err)
@@ -23,14 +31,14 @@ func CrearCliente(w http.ResponseWriter, r *http.Request) {
 	tmpl.ExecuteTemplate(w, "crearCliente.html", nil)
 }
 
-// Guardar cliente 
+// Guardar cliente
 func GuardarCliente(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		cliente := models.Cliente{
 			IDPersona:     1, // Esto será reemplazado con un IDPersona real
 			TipoCuenta:    r.FormValue("tipoCuenta"),
 			Saldo:         0.0,
-			FechaRegistro: time.Now(), 
+			FechaRegistro: time.Now().Format("2006-01-02 15:04:05"),
 		}
 
 		log.Println("Cliente registrado:", cliente)
@@ -38,7 +46,7 @@ func GuardarCliente(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// Editar cliente 
+// Editar cliente
 func EditarCliente(w http.ResponseWriter, r *http.Request) {
 	tmpl.ExecuteTemplate(w, "editarCliente.html", nil)
 }
