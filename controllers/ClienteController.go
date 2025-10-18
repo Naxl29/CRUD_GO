@@ -14,7 +14,7 @@ func VerClientes(w http.ResponseWriter, r *http.Request) {
 		IDPersona:     1,
 		TipoCuenta:    "Ahorros",
 		Saldo:         1000000.00,
-		FechaRegistro: time.Now().Format("2006-01-02 15:04:05"),
+		FechaRegistro: time.Now(),
 	}
 	cliente.ID = 1 // Asignar ID después de crear la estructura
 
@@ -38,7 +38,7 @@ func GuardarCliente(w http.ResponseWriter, r *http.Request) {
 			IDPersona:     1, // Esto será reemplazado con un IDPersona real
 			TipoCuenta:    r.FormValue("tipoCuenta"),
 			Saldo:         0.0,
-			FechaRegistro: time.Now().Format("2006-01-02 15:04:05"),
+			FechaRegistro: time.Now(),
 		}
 
 		log.Println("Cliente registrado:", cliente)

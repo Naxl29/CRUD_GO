@@ -14,7 +14,7 @@ func VerTransacciones(w http.ResponseWriter, r *http.Request) {
 		IDCliente:   1,
 		Tipo:        "Depósito",
 		Monto:       500000.00,
-		Fecha:       time.Now().Format("2006-01-02 15:04:05"),
+		Fecha:       time.Now(),
 		Descripcion: "Depósito inicial",
 	}
 	transaccion.ID = 1 // Asignar ID después de crear la estructura
@@ -39,7 +39,7 @@ func GuardarTransaccion(w http.ResponseWriter, r *http.Request) {
 			IDCliente:   1,
 			Tipo:        r.FormValue("tipo"),
 			Monto:       0.0,
-			Fecha:       time.Now().Format("2006-01-02 15:04:05"),
+			Fecha:       time.Now(),
 			Descripcion: r.FormValue("descripcion"),
 		}
 		log.Println("Transacción registrada:", transaccion)
