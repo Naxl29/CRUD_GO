@@ -92,17 +92,29 @@
                   <select name="idCliente" id="selectCliente" class="form-control" required>
                     <option value="">Cargando clientes...</option>
                   </select>
-                  <small class="form-text text-muted">Seleccione el cliente que realizará la transacción</small>
+                  <small class="form-text text-muted">Cliente que realiza la transacción</small>
                 </div>
                 <div class="form-group">
                   <label>Tipo de Transacción *</label>
-                  <select name="tipo" class="form-control" required>
+                  <select name="tipo" id="tipoTransaccion" class="form-control" required>
                     <option value="">Seleccione...</option>
                     <option value="Depósito">Depósito</option>
                     <option value="Retiro">Retiro</option>
                     <option value="Transferencia">Transferencia</option>
                   </select>
                 </div>
+                
+                <!-- Campos adicionales para Transferencia (ocultos por defecto) -->
+                <div id="camposTransferencia" style="display: none;">
+                  <div class="form-group">
+                    <label>Cliente Destino *</label>
+                    <select name="idDestino" id="selectClienteDestino" class="form-control">
+                      <option value="">Seleccione el cliente destino...</option>
+                    </select>
+                    <small class="form-text text-muted">Cliente que recibirá la transferencia</small>
+                  </div>
+                </div>
+                
                 <div class="form-group">
                   <label>Monto *</label>
                   <input type="number" step="0.01" name="monto" class="form-control" required min="0.01" placeholder="0.00">
@@ -178,5 +190,33 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="/static/js/main.js"></script>
+    
+    <!-- Script específico para transacciones -->
+    <script>
+      $(document).ready(function() {
+        console.log('Script de transacciones cargado');
+        console.log('Elemento #tipoTransaccion encontrado:', $('#tipoTransaccion').length);
+        console.log('Elemento #camposTransferencia encontrado:', $('#camposTransferencia').length);
+        
+        // Evento para mostrar/ocultar campos de transferencia
+        $('#tipoTransaccion').on('change', function() {
+          var tipo = $(this).val();
+          console.log('Evento change disparado. Tipo seleccionado:', tipo);
+          
+          if (tipo === 'Transferencia') {
+            console.log('Mostrando campos de transferencia');
+            $('#camposTransferencia').slideDown();
+            $('#selectClienteDestino').prop('required', true);
+          } else {
+            console.log('Ocultando campos de transferencia');
+            $('#camposTransferencia').slideUp();
+            $('#selectClienteDestino').prop('required', false);
+            $('#selectClienteDestino').val('');
+          }
+        });
+        
+        console.log('Evento change registrado correctamente');
+      });
+    </script>
   </body>
 </html>

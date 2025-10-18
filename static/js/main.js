@@ -118,25 +118,51 @@ document.addEventListener("DOMContentLoaded", function () {
             dataType: 'json',
             success: function(data) {
                 var select = $('#selectCliente');
+                var selectDestino = $('#selectClienteDestino');
+                
                 select.empty();
+                selectDestino.empty();
                 
                 if (data.length === 0) {
                     select.append('<option value="">No hay clientes disponibles</option>');
+                    selectDestino.append('<option value="">No hay clientes disponibles</option>');
                 } else {
                     select.append('<option value="">Seleccione un cliente</option>');
+                    selectDestino.append('<option value="">Seleccione el cliente destino</option>');
                     data.forEach(function(cliente) {
                         select.append('<option value="' + cliente.id + '">' + cliente.nombre + '</option>');
+                        selectDestino.append('<option value="' + cliente.id + '">' + cliente.nombre + '</option>');
                     });
                 }
             },
             error: function() {
                 $('#selectCliente').html('<option value="">Error al cargar clientes</option>');
+                $('#selectClienteDestino').html('<option value="">Error al cargar clientes</option>');
             }
         });
     }
 
+    // Mostrar/ocultar campos de transferencia según el tipo seleccionado
+    $(document).on('change', '#tipoTransaccion', function() {
+        var tipo = $(this).val();
+        console.log('Tipo seleccionado:', tipo); // Para debugging
+        
+        if (tipo === 'Transferencia') {
+            $('#camposTransferencia').slideDown();
+            $('#selectClienteDestino').prop('required', true);
+        } else {
+            $('#camposTransferencia').slideUp();
+            $('#selectClienteDestino').prop('required', false);
+            $('#selectClienteDestino').val('');
+        }
+    });
+
     // Cargar clientes cuando se abre el modal de crear transacción
     $('#crearTransaccionModal').on('show.bs.modal', function() {
         cargarClientes();
+        // Resetear el formulario
+        $('#tipoTransaccion').val('');
+        $('#camposTransferencia').hide();
+        $('#selectClienteDestino').prop('required', false);
     });
 });
