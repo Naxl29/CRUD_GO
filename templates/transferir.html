@@ -1,0 +1,45 @@
+{{ define "transferir.html" }}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Transferencia Bancaria</title>
+</head>
+<body>
+    <h2>Transferencia entre Clientes</h2>
+
+    <form action="/transacciones/guardarTransferencia" method="POST">
+        <label for="origen">Cliente Origen:</label>
+        <select name="origen" required>
+            <option value="">Seleccione...</option>
+            {{ range .Clientes }}
+                <option value="{{ .ID }}">
+                    {{ .Persona.PrimerNombre }} {{ .Persona.PrimerApellido }} — Saldo: ${{ printf "%.2f" .Saldo }}
+                </option>
+            {{ end }}
+        </select>
+        <br><br>
+
+        <label for="destino">Cliente Destino:</label>
+        <select name="destino" required>
+            <option value="">Seleccione...</option>
+            {{ range .Clientes }}
+                <option value="{{ .ID }}">
+                    {{ .Persona.PrimerNombre }} {{ .Persona.PrimerApellido }} — Saldo: ${{ printf "%.2f" .Saldo }}
+                </option>
+            {{ end }}
+        </select>
+        <br><br>
+
+        <label for="monto">Monto a transferir:</label>
+        <input type="number" name="monto" min="1" step="0.01" required>
+        <br><br>
+
+        <button type="submit">Transferir</button>
+    </form>
+
+    <br>
+    <a href="/transacciones">Volver al historial</a>
+</body>
+</html>
+{{ end }}
