@@ -6,9 +6,10 @@ import (
 )
 
 func LoadRoutes() {
+	// Ruta principal - Página de inicio con listado de cuentas
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == "/" {
-			controllers.RenderTemplate(w, "index.html", nil)
+			controllers.VerIndex(w, r)
 		} else {
 			http.NotFound(w, r)
 		}
@@ -34,4 +35,8 @@ func LoadRoutes() {
 	http.HandleFunc("/transacciones/guardar", controllers.GuardarTransaccion)
 	http.HandleFunc("/transacciones/editar", controllers.EditarTransaccion)
 	http.HandleFunc("/transacciones/eliminar", controllers.EliminarTransaccion)
+
+	// API para obtener datos para formularios
+	http.HandleFunc("/api/clientes", controllers.ObtenerClientes)
+	http.HandleFunc("/api/personas", controllers.ObtenerPersonas)
 }

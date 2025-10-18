@@ -16,12 +16,11 @@
           <i class="fas fa-plus"></i> Nuevo Cliente
         </button>
       </div>
-
       <table class="table table-hover">
         <thead class="thead-dark">
           <tr>
             <th>ID</th>
-            <th>ID Persona</th>
+            <th>Cliente</th>
             <th>Tipo Cuenta</th>
             <th>Saldo</th>
             <th>Fecha Registro</th>
@@ -32,17 +31,17 @@
           {{range .}}
           <tr>
             <td>{{.ID}}</td>
-            <td>{{.IDPersona}}</td>
+            <td>{{.Persona.PrimerNombre}} {{.Persona.SegundoNombre}} {{.Persona.PrimerApellido}} {{.Persona.SegundoApellido}}</td>
             <td>{{.TipoCuenta}}</td>
             <td>${{printf "%.2f" .Saldo}}</td>
             <td>{{.FechaRegistro.Format "02/01/2006"}}</td>
             <td>
-              <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editarClienteModal" 
-                      data-id="{{.ID}}" data-idpersona="{{.IDPersona}}" 
+              <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editarClienteModal"
+                      data-id="{{.ID}}" data-idpersona="{{.IDPersona}}"
                       data-tipo="{{.TipoCuenta}}" data-saldo="{{.Saldo}}">
                 <i class="fas fa-edit"></i>
               </button>
-              <button class="btn btn-danger btn-sm" onclick="eliminarCliente({{.ID}})">
+              <button class="btn btn-danger btn-sm" onclick="eliminarCliente('{{.ID}}')">
                 <i class="fas fa-trash"></i>
               </button>
             </td>
@@ -68,8 +67,11 @@
             <form action="/clientes/guardar" method="POST">
               <div class="modal-body">
                 <div class="form-group">
-                  <label>ID Persona</label>
-                  <input type="number" name="idPersona" class="form-control" required>
+                  <label>Seleccionar Persona *</label>
+                  <select name="idPersona" id="selectPersonaCrear" class="form-control" required>
+                    <option value="">Cargando personas...</option>
+                  </select>
+                  <small class="form-text text-muted">Seleccione la persona asociada a esta cuenta</small>
                 </div>
                 <div class="form-group">
                   <label>Tipo de Cuenta</label>
@@ -80,7 +82,7 @@
                 </div>
                 <div class="form-group">
                   <label>Saldo Inicial</label>
-                  <input type="number" step="0.01" name="saldo" class="form-control" required>
+                  <input type="number" step="0.01" name="saldo" class="form-control" value="0" required>
                 </div>
               </div>
               <div class="modal-footer">
@@ -102,12 +104,14 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form action="/clientes/guardar" method="POST">
+            <form action="/clientes/editar" method="POST">
               <input type="hidden" name="id" id="editId">
               <div class="modal-body">
                 <div class="form-group">
-                  <label>ID Persona</label>
-                  <input type="number" name="idPersona" id="editIdPersona" class="form-control" required>
+                  <label>Seleccionar Persona *</label>
+                  <select name="idPersona" id="editIdPersona" class="form-control" required>
+                    <option value="">Cargando personas...</option>
+                  </select>
                 </div>
                 <div class="form-group">
                   <label>Tipo de Cuenta</label>
@@ -136,6 +140,42 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
     <script>
+      // Cargar personas desde la API
+      function cargarPersonas() {
+        $.ajax({
+          url: '/api/personas',
+          method: 'GET',
+          dataType: 'json',
+          success: function(data) {
+            var optionsCrear = '<option value="">Seleccione una persona</option>';
+            var optionsEditar = '<option value="">Seleccione una persona</option>';
+            
+            if (data.length === 0) {
+              optionsCrear = '<option value="">No hay personas disponibles</option>';
+              optionsEditar = '<option value="">No hay personas disponibles</option>';
+            } else {
+              data.forEach(function(persona) {
+                optionsCrear += '<option value="' + persona.id + '">' + persona.nombre + '</option>';
+                optionsEditar += '<option value="' + persona.id + '">' + persona.nombre + '</option>';
+              });
+            }
+            
+            $('#selectPersonaCrear').html(optionsCrear);
+            $('#editIdPersona').html(optionsEditar);
+          },
+          error: function(xhr, status, error) {
+            console.error('Error al cargar personas:', error);
+            $('#selectPersonaCrear').html('<option value="">Error al cargar personas</option>');
+            $('#editIdPersona').html('<option value="">Error al cargar personas</option>');
+          }
+        });
+      }
+
+      // Cargar personas cuando se abre el modal de crear
+      $('#crearClienteModal').on('show.bs.modal', function() {
+        cargarPersonas();
+      });
+
       // Cargar datos en modal de edición
       $('#editarClienteModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget)
@@ -144,11 +184,16 @@
         var tipo = button.data('tipo')
         var saldo = button.data('saldo')
         
-        var modal = $(this)
-        modal.find('#editId').val(id)
-        modal.find('#editIdPersona').val(idPersona)
-        modal.find('#editTipoCuenta').val(tipo)
-        modal.find('#editSaldo').val(saldo)
+        // Cargar personas primero
+        cargarPersonas();
+        
+        // Después de un breve delay, seleccionar los valores
+        setTimeout(function() {
+          $('#editId').val(id)
+          $('#editIdPersona').val(idPersona)
+          $('#editTipoCuenta').val(tipo)
+          $('#editSaldo').val(saldo)
+        }, 200);
       })
 
       // Función eliminar

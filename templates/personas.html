@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Listado de Personas</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="/static/css/templates.css">
   </head>
   <body>
@@ -40,10 +41,10 @@
                       data-id="{{.ID}}" data-nombre1="{{.PrimerNombre}}" data-nombre2="{{.SegundoNombre}}"
                       data-apellido1="{{.PrimerApellido}}" data-apellido2="{{.SegundoApellido}}"
                       data-documento="{{.Documento}}" data-correo="{{.Correo}}"
-                      data-telefono="{{.Telefono}}">
+                      data-direccion="{{.Direccion}}" data-telefono="{{.Telefono}}">
                 <i class="fas fa-edit"></i>
               </button>
-              <button class="btn btn-danger btn-sm" onclick="eliminarPersona({{.ID}})">
+              <button class="btn btn-danger btn-sm" onclick="eliminarPersona('{{.ID}}')">
                 <i class="fas fa-trash"></i>
               </button>
             </td>
@@ -66,10 +67,10 @@
             </div>
             <form action="/personas/guardar" method="POST">
               <div class="modal-body">
-                <!-- Campos del formulario -->
+                <!-- Nombres -->
                 <div class="form-row">
                   <div class="form-group col-md-6">
-                    <label>Primer Nombre</label>
+                    <label>Primer Nombre *</label>
                     <input type="text" name="primerNombre" class="form-control" required>
                   </div>
                   <div class="form-group col-md-6">
@@ -77,7 +78,37 @@
                     <input type="text" name="segundoNombre" class="form-control">
                   </div>
                 </div>
-                <!-- ...más campos... -->
+                <!-- Apellidos -->
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label>Primer Apellido *</label>
+                    <input type="text" name="primerApellido" class="form-control" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label>Segundo Apellido</label>
+                    <input type="text" name="segundoApellido" class="form-control">
+                  </div>
+                </div>
+                <!-- Documento -->
+                <div class="form-group">
+                  <label>Documento *</label>
+                  <input type="text" name="documento" class="form-control" required maxlength="20">
+                </div>
+                <!-- Correo -->
+                <div class="form-group">
+                  <label>Correo Electrónico *</label>
+                  <input type="email" name="correo" class="form-control" required maxlength="100">
+                </div>
+                <!-- Dirección -->
+                <div class="form-group">
+                  <label>Dirección *</label>
+                  <input type="text" name="direccion" class="form-control" required maxlength="200">
+                </div>
+                <!-- Teléfono -->
+                <div class="form-group">
+                  <label>Teléfono *</label>
+                  <input type="tel" name="telefono" class="form-control" required maxlength="15" pattern="[0-9]+">
+                </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -87,10 +118,77 @@
           </div>
         </div>
       </div>
+
+      <!-- Modal Editar Persona -->
+      <div class="modal fade" id="editarPersonaModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Editar Persona</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form action="/personas/editar" method="POST">
+              <input type="hidden" name="id" id="editId">
+              <div class="modal-body">
+                <!-- Nombres -->
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label>Primer Nombre *</label>
+                    <input type="text" name="primerNombre" id="editPrimerNombre" class="form-control" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label>Segundo Nombre</label>
+                    <input type="text" name="segundoNombre" id="editSegundoNombre" class="form-control">
+                  </div>
+                </div>
+                <!-- Apellidos -->
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label>Primer Apellido *</label>
+                    <input type="text" name="primerApellido" id="editPrimerApellido" class="form-control" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label>Segundo Apellido</label>
+                    <input type="text" name="segundoApellido" id="editSegundoApellido" class="form-control">
+                  </div>
+                </div>
+                <!-- Documento -->
+                <div class="form-group">
+                  <label>Documento *</label>
+                  <input type="text" name="documento" id="editDocumento" class="form-control" required maxlength="20">
+                </div>
+                <!-- Correo -->
+                <div class="form-group">
+                  <label>Correo Electrónico *</label>
+                  <input type="email" name="correo" id="editCorreo" class="form-control" required maxlength="100">
+                </div>
+                <!-- Dirección -->
+                <div class="form-group">
+                  <label>Dirección *</label>
+                  <input type="text" name="direccion" id="editDireccion" class="form-control" required maxlength="200">
+                </div>
+                <!-- Teléfono -->
+                <div class="form-group">
+                  <label>Teléfono *</label>
+                  <input type="tel" name="telefono" id="editTelefono" class="form-control" required maxlength="15" pattern="[0-9]+">
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Actualizar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="/static/js/main.js"></script>
   </body>
 </html>
