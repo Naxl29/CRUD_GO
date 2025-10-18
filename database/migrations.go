@@ -8,13 +8,10 @@ import (
 
 // Migrate ejecuta las migraciones de la base de datos
 func Migrate() {
-	log.Println("Ejecutando migraciones...")
+	log.Println("🔄 Ejecutando migraciones...")
 
-	// AutoMigrate crea las tablas en orden
 	err := DB.AutoMigrate(
-		&models.Cliente{},
-		&models.Cuenta{},
-		&models.Transaccion{},
+		&models.Persona{},
 	)
 
 	if err != nil {

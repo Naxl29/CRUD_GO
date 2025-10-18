@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"CRUD_GO/config"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -23,6 +24,10 @@ func Connect() {
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),
 	})
+
+	if err != nil {
+		log.Fatal("Error al conectar con la base de datos:", err)
+	}
 
 	log.Println("Conexión exitosa con la base de datos MySQL")
 }
