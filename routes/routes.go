@@ -1,11 +1,19 @@
 package routes
 
 import (
-	"net/http"
 	"CRUD_GO/controllers"
+	"net/http"
 )
 
 func LoadRoutes() {
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path == "/" {
+			controllers.RenderTemplate(w, "index.html", nil)
+		} else {
+			http.NotFound(w, r)
+		}
+	})
+
 	// Rutas para Personas
 	http.HandleFunc("/personas", controllers.VerPersonas)
 	http.HandleFunc("/personas/crear", controllers.CrearPersona)
