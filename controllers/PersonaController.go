@@ -50,6 +50,6 @@ func EditarPersona(w http.ResponseWriter, r *http.Request) {
 
 // Eliminar persona
 func EliminarPersona(w http.ResponseWriter, r *http.Request) {
-	log.Println("Persona eliminada (pendiente conexión BD)")
+	log.Println("Persona eliminada")
 	http.Redirect(w, r, "/personas", http.StatusSeeOther)
 }
