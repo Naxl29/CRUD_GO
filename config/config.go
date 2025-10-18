@@ -10,22 +10,25 @@ import (
 
 // Config estructura para almacenar la configuración
 type Config struct {
-	DBHost     string
-	DBPort     string
-	DBUser     string
-	DBPassword string
-	DBName     string
-	ServerPort string
+	DBHost      string
+	DBPort      string
+	DBUser      string
+	DBPassword  string
+	DBName      string
+	ServerPort  string
 	Environment string
 }
 
 // Configuracion variable global para acceder a la configuración
 var Configuracion *Config
 
-// variables_entorno carga las variables de entorno
-func variables_entorno() {
+// Variables_entorno carga las variables de entorno
+func Variables_entorno() {
 	// Cargar archivo .env
 	err := godotenv.Load()
+	if err != nil {
+		log.Println("⚠️  Advertencia: No se pudo cargar el archivo .env, usando variables del sistema")
+	}
 
 	// Crear instancia de configuración
 	Configuracion = &Config{
@@ -38,7 +41,7 @@ func variables_entorno() {
 		Environment: getEnv("ENVIRONMENT", "development"),
 	}
 
-	log.Println("Configuración cargada exitosamente")
+	log.Println("✅ Configuración cargada exitosamente")
 }
 
 // getEnv obtiene una variable de entorno o retorna un valor por defecto
