@@ -19,4 +19,11 @@ func LoadRoutes() {
 	http.HandleFunc("/clientes/guardar", controllers.GuardarCliente)
 	http.HandleFunc("/clientes/editar", controllers.EditarCliente)
 	http.HandleFunc("/clientes/eliminar", controllers.EliminarCliente)
+
+	// Rutas para Transacciones
+	http.HandleFunc("/transacciones", controllers.VerTransacciones)
+	http.HandleFunc("/transacciones/crear", controllers.CrearTransaccion)
+	http.HandleFunc("/transacciones/guardar", controllers.GuardarTransaccion)
+	http.HandleFunc("/transacciones/editar", controllers.EditarTransaccion)
+	http.HandleFunc("/transacciones/eliminar", controllers.EliminarTransaccion)
 }
