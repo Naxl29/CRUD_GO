@@ -7,77 +7,52 @@
 
     <!-- Bootstrap CSS desde CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- CSS personalizado -->
     <link rel="stylesheet" href="/static/css/templates.css">
   </head>
   <body>
-
     <div class="container mt-5">
+      <!-- Botones de navegación -->
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <a href="/personas" class="btn btn-success btn-block">
+            <i class="fas fa-users"></i> Ver Personas
+          </a>
+        </div>
+        <div class="col-md-6">
+          <a href="/clientes" class="btn btn-success btn-block">
+            <i class="fas fa-user-circle"></i> Ver Clientes
+          </a>
+        </div>
+      </div>
+
       <h2 class="mb-4">Listado de Cuentas</h2>
 
       <table class="table table-hover">
-        <thead>
+        <thead class="thead-dark">
           <tr>
             <th>ID</th>
-            <th>NOMBRE</th>
-            <th>TIPO DE CUENTA</th>
-            <th>MONTO</th>
+            <th>Nombre</th>
+            <th>Tipo de Cuenta</th>
+            <th>Saldo</th>
           </tr>
         </thead>
         <tbody>
+          {{range .Clientes}}
           <tr>
-            <td>1</td>
-            <td>NICOLÁS</td>
-            <td>AHORRO</td>
-            <td>1000</td>
+            <td>{{.ID}}</td>
+            <td>{{.Persona.PrimerNombre}} {{.Persona.PrimerApellido}}</td>
+            <td>{{.TipoCuenta}}</td>
+            <td>${{printf "%.2f" .Saldo}}</td>
           </tr>
+          {{else}}
           <tr>
-            <td>2</td>
-            <td>ANA</td>
-            <td>CORRIENTE</td>
-            <td>2500</td>
+            <td colspan="4" class="text-center">No hay cuentas registradas</td>
           </tr>
-          <tr>
-            <td>3</td>
-            <td>MARIO</td>
-            <td>AHORRO</td>
-            <td>1800</td>
-          </tr>
+          {{end}}
         </tbody>
       </table>
-
-      <button class="btn-enviar mt-3" data-toggle="modal" data-target="#enviarModal">Enviar Dinero</button>
-
-      <!-- Modal para enviar dinero -->
-      <div class="modal fade" id="enviarModal" tabindex="-1" role="dialog" aria-labelledby="enviarModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="enviarModalLabel">Enviar Dinero</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div class="form-group">
-                  <label for="cuentaDestino">Cuenta Destino</label>
-                  <input type="text" class="form-control" id="cuentaDestino" placeholder="Ingrese número de cuenta">
-                </div>
-                <div class="form-group">
-                  <label for="montoEnviar">Monto</label>
-                  <input type="number" class="form-control" id="montoEnviar" placeholder="Ingrese el monto">
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-primary">Enviar</button>
-            </div>
-          </div>
-        </div>
-      </div>
 
     </div>
 
@@ -85,9 +60,5 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-    <!-- JS personalizado -->
-    <script src="/static/js/main.js"></script>
-
   </body>
 </html>
